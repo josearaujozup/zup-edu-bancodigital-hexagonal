@@ -1,7 +1,8 @@
-package com.zupedu.bancodigital.controller;
+package com.zupedu.bancodigital.application.correntista;
 
-import com.zupedu.bancodigital.controller.input.NovoCorrentistaRequest;
-import com.zupedu.bancodigital.repository.CorrentistaRepository;
+import com.zupedu.bancodigital.adapters.persistence.correntista.CorrentistaRepository;
+import com.zupedu.bancodigital.domain.correntista.CadastraNovoCorrentista;
+import com.zupedu.bancodigital.domain.correntista.Correntista;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class CorrentistaController {
 
     @Autowired
-    private CorrentistaRepository correntistaRepository;
+    private CadastraNovoCorrentista service;
 
 
     @PostMapping
@@ -22,7 +23,7 @@ public class CorrentistaController {
                                       UriComponentsBuilder uriBuilder) {
 
 
-        var correntista = correntistaRepository.save(request.paraCorrentista());
+        Correntista correntista = service.salva(request);
 
         var location = uriBuilder.path("/api/correntista/{id}")
                 .buildAndExpand(correntista.getId())

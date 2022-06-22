@@ -1,7 +1,8 @@
-package com.zupedu.bancodigital.controller.input;
+package com.zupedu.bancodigital.application.correntista;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.zupedu.bancodigital.model.Correntista;
+import com.zupedu.bancodigital.domain.correntista.Correntista;
+import com.zupedu.bancodigital.domain.correntista.DadosNovoCorrentista;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotBlank;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 
 import static com.fasterxml.jackson.annotation.JsonCreator.Mode.PROPERTIES;
 
-public class NovoCorrentistaRequest {
+public class NovoCorrentistaRequest implements DadosNovoCorrentista {
 
     @NotBlank
     private String nome;
@@ -38,7 +39,8 @@ public class NovoCorrentistaRequest {
         this.patrimonioDeclarado = patrimonioDeclarado;
     }
 
-    public Correntista paraCorrentista() {
+    @Override
+    public Correntista toModel() {
         return new Correntista(nome, dataDeNascimento, documento, patrimonioDeclarado);
     }
 }
